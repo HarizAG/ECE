@@ -75,8 +75,8 @@
                                 <label for="role"
                                     class="col-md-4 col-form-label text-md-end">{{ 'Role' }}</label>
                                 <div class="col-md-4">
-                                    <input type="radio" name="role" value="Staff"> Staff
-                                    <input type="radio" name="role" value="Customer"> Customer
+                                    <input type="radio" name="role" value="staff"> Staff
+                                    <input type="radio" name="role" value="customer"> Customer
                                     @error('role')
                                         <span class="invalid-feedback d-block" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -123,7 +123,7 @@
 
             function toggleBranchField() {
                 const selectedRole = document.querySelector('input[name="role"]:checked');
-                if (selectedRole && selectedRole.value === 'Staff') {
+                if (selectedRole && selectedRole.value === 'staff') {
                     branchField.style.display = 'block';
                 } else {
                     branchField.style.display = 'none';

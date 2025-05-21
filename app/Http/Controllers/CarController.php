@@ -11,10 +11,12 @@ class CarController extends Controller
     /**
      * Display a listing of the resource.
      */
+    /** @var \App\Models\User $user */
+
     public function index()
     {
         if (Auth::check()) {
-            $user = Auth::user()->load('staff'); // Load the staff relationship
+            $user = Auth::user(); // Load the staff relationship
         } else {
             $user = null; // Handle unauthenticated users
         }

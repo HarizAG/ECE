@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('branch_id')->constrained('branches', 'branch_id')->onDelete('cascade');
             $table->string('car_name');
             $table->string('brand');
-            $table->enum('type', ['sedan', 'suv', 'hatchback']);
+            $table->string('type');
             $table->enum('transmission', ['manual', 'automatic']);
             $table->string('plate_number')->unique();
             $table->timestamps();
