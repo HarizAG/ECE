@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('brand');
             $table->enum('type', ['sedan', 'suv', 'hatchback']);
             $table->enum('transmission', ['manual', 'automatic']);
+            $table->string('plate_number')->unique();
             $table->timestamps();
         });
     }

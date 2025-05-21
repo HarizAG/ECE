@@ -113,17 +113,29 @@
             </div>
         </div>
     </div>
+@endsection
 
-    <<script>
-        document.querySelectorAll('input[name="role"]').forEach((radio) => {
-            radio.addEventListener('change', function() {
-                const branchField = document.getElementById('branch-field');
-                if (this.value === 'Staff') {
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const branchField = document.getElementById('branch-field');
+            const roleRadios = document.querySelectorAll('input[name="role"]');
+
+            function toggleBranchField() {
+                const selectedRole = document.querySelector('input[name="role"]:checked');
+                if (selectedRole && selectedRole.value === 'Staff') {
                     branchField.style.display = 'block';
                 } else {
                     branchField.style.display = 'none';
                 }
+            }
+
+            roleRadios.forEach((radio) => {
+                radio.addEventListener('change', toggleBranchField);
             });
+
+            // Run on page load
+            toggleBranchField();
         });
     </script>
 @endsection

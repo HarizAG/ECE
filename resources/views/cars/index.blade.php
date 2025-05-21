@@ -3,10 +3,18 @@
 @section('content')
     <div class="container">
         <h1>Cars List</h1>
+
+        @if (Auth::check() && Auth::user()->role == 'staff')
+            <div class="d-flex justify-content-end mb-3">
+                <a href="{{ route('cars.create') }}" class="btn btn-success">
+                    + Add car</i>
+                </a>
+            </div>
+        @endif
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Plate number</th>
                     <th>Car</th>
                     <th>Brand</th>
                     <th>Type</th>
@@ -17,7 +25,7 @@
             <tbody>
                 @foreach ($cars as $car)
                     <tr>
-                        <td>{{ $car->car_id }}</td>
+                        <td>{{ $car->plate_number }}</td>
                         <td>{{ $car->car_name }}</td>
                         <td>{{ $car->brand }}</td>
                         <td>{{ $car->type }}</td>

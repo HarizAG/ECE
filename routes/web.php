@@ -36,4 +36,4 @@ Route::get('/cars/{car}', [CarController::class, 'show']);
 
 Route::get('/branches', [BranchController::class, 'index']);
 
-Route::get('/cars', [CarController::class, 'index']);
+Route::get('/cars', [CarController::class, 'index'])->name('cars.index');

@@ -14,6 +14,7 @@ class Car extends Model
         'brand',
         'type',
         'transmission',
+        'plate_number'
     ];
 
     public function bookings()

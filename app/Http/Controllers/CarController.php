@@ -39,19 +39,23 @@ class CarController extends Controller
     {
         $validated = $request->validate([
             'branch_id' => 'required',
+            'car_name' => 'required',
             'brand' => 'required',
             'type' => 'required',
             'transmission' => 'required',
+            'branch_id' => 'required',
+            'plate_number' => 'required|unique:cars,plate_number',
         ]);
 
-        $car = Car::create([
+        Car::create([
+            'branch_id' => $validated['branch_id'],
+            'car_name' => $validated['car_name'],
             'branch_id' => $validated['branch_id'],
             'brand' => $validated['brand'],
             'type' => $validated['type'],
             'transmission' => $validated['transmission'],
+            'plate_number' => $validated['plate_number'],
         ]);
-
-        $car->branch()->attach('branch_id');
 
         return redirect()->route('cars.index')->with('success', 'Car created successfully.');
     }
@@ -84,6 +88,8 @@ class CarController extends Controller
             'brand' => 'required',
             'type' => 'required',
             'transmission' => 'required',
+            'branch_id' => 'required',
+            'plate_number' => 'required|unique:cars,plate_number,',
         ]);
 
         $car->update([
@@ -91,9 +97,9 @@ class CarController extends Controller
             'brand' => $validated['brand'],
             'type' => $validated['type'],
             'transmission' => $validated['transmission'],
+            'branch_id' => $validated['branch_id'],
+            'plate_number' => $validated['plate_number'],
         ]);
-
-        $car->branch()->attach('branch_id');
 
         return redirect()->route('cars.index')->with('success', 'Car created successfully.');
     }
