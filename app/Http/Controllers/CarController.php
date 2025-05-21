@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Car;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CarController extends Controller
 {
@@ -12,7 +13,14 @@ class CarController extends Controller
      */
     public function index()
     {
-        //
+        if (Auth::check()) {
+            $user = Auth::user()->load('staff'); // Load the staff relationship
+        } else {
+            $user = null; // Handle unauthenticated users
+        }
+
+        $cars = Car::with('branch')->get(); // Load cars with their branch relationship
+        return view('cars.index', compact('cars', 'user'));
     }
 
     /**
@@ -20,7 +28,8 @@ class CarController extends Controller
      */
     public function create()
     {
-        //
+        $car = Car::all();
+        return view('cars.create');
     }
 
     /**
@@ -28,7 +37,23 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'branch_id' => 'required',
+            'brand' => 'required',
+            'type' => 'required',
+            'transmission' => 'required',
+        ]);
+
+        $car = Car::create([
+            'branch_id' => $validated['branch_id'],
+            'brand' => $validated['brand'],
+            'type' => $validated['type'],
+            'transmission' => $validated['transmission'],
+        ]);
+
+        $car->branch()->attach('branch_id');
+
+        return redirect()->route('cars.index')->with('success', 'Car created successfully.');
     }
 
     /**
@@ -36,7 +61,8 @@ class CarController extends Controller
      */
     public function show(Car $car)
     {
-        //
+        $car = Car::with('branch')->find($car->id);
+        return view('cars.show', compact('car'));
     }
 
     /**
@@ -44,7 +70,8 @@ class CarController extends Controller
      */
     public function edit(Car $car)
     {
-        //
+        $car = Car::with('branch')->get();
+        return view('cars.index', compact('car'));
     }
 
     /**
@@ -52,7 +79,23 @@ class CarController extends Controller
      */
     public function update(Request $request, Car $car)
     {
-        //
+        $validated = $request->validate([
+            'branch_id' => 'required',
+            'brand' => 'required',
+            'type' => 'required',
+            'transmission' => 'required',
+        ]);
+
+        $car->update([
+            'branch_id' => $validated['branch_id'],
+            'brand' => $validated['brand'],
+            'type' => $validated['type'],
+            'transmission' => $validated['transmission'],
+        ]);
+
+        $car->branch()->attach('branch_id');
+
+        return redirect()->route('cars.index')->with('success', 'Car created successfully.');
     }
 
     /**
@@ -60,6 +103,7 @@ class CarController extends Controller
      */
     public function destroy(Car $car)
     {
-        //
+        $car->delete();
+        return redirect()->route('cars.index')->with('success', 'Car was deleted successfully.');
     }
 }

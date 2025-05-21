@@ -10,6 +10,7 @@ class StaffSeeder extends Seeder
 {
     public function run(): void
     {
+        //DB::table('staff')->truncate();
         DB::table('staff')->insert([
             ['staff_id' => 1, 'name' => 'Alice', 'email' => 'alice@example.com', 'password' => bcrypt('password'), 'branch_id' => 1],
             ['staff_id' => 2, 'name' => 'Bob', 'email' => 'bob@example.com', 'password' => bcrypt('password'), 'branch_id' => 2],

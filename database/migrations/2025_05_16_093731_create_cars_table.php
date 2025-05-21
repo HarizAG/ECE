@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('cars', function (Blueprint $table) {
             $table->id('car_id');
             $table->foreignId('branch_id')->constrained('branches', 'branch_id')->onDelete('cascade');
+            $table->string('car_name');
             $table->string('brand');
             $table->enum('type', ['sedan', 'suv', 'hatchback']);
             $table->enum('transmission', ['manual', 'automatic']);

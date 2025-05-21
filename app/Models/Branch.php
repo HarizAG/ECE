@@ -10,6 +10,8 @@ class Branch extends Model
 
     protected $fillable = [
         'branch_name',
+        'address',
+        'phone',
     ];
 
     public function cars()

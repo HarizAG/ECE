@@ -9,9 +9,10 @@ class CarSeeder extends Seeder
 {
     public function run(): void
     {
+        //DB::table('cars')->truncate();
         DB::table('cars')->insert([
-            ['car_id' => 1, 'branch_id' => 1, 'brand' => 'Toyota', 'type' => 'sedan', 'transmission' => 'automatic'],
-            ['car_id' => 2, 'branch_id' => 2, 'brand' => 'Honda', 'type' => 'suv', 'transmission' => 'manual'],
+            ['car_id' => 1, 'branch_id' => 1, 'car_name' => 'Supra', 'brand' => 'Toyota', 'type' => 'sedan', 'transmission' => 'automatic'],
+            ['car_id' => 2, 'branch_id' => 2, 'car_name' => 'Civic', 'brand' => 'Honda', 'type' => 'suv', 'transmission' => 'manual'],
         ]);
     }
 }

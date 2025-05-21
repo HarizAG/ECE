@@ -9,7 +9,8 @@ class Car extends Model
     protected $primaryKey = 'car_id';
 
     protected $fillable = [
-        'branch',
+        'branch_id',
+        'car_name',
         'brand',
         'type',
         'transmission',
@@ -17,7 +18,9 @@ class Car extends Model
 
     public function bookings()
     {
-        return $this->belongsToMany(Booking::class, 'booking_car', 'car_id', 'booking_id');
+        return $this->belongsToMany(Booking::class, 'car_booking', 'car_id', 'booking_id')
+            ->withPivot('car_id')
+            ->withTimestamps();
     }
 
     public function branch()

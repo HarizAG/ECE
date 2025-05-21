@@ -12,7 +12,7 @@ class StaffController extends Controller
      */
     public function index()
     {
-        //
+        return view('staff.index');
     }
 
     /**
@@ -36,7 +36,8 @@ class StaffController extends Controller
      */
     public function show(Staff $staff)
     {
-        //
+        $staff = Staff::with('branch')->find($staff->id);
+        return view('staff.show', compact('staff'));
     }
 
     /**

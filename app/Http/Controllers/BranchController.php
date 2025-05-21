@@ -12,7 +12,8 @@ class BranchController extends Controller
      */
     public function index()
     {
-        //
+        $branches = Branch::all();
+        return view('branches.index', compact('branches'));
     }
 
     /**
@@ -36,7 +37,7 @@ class BranchController extends Controller
      */
     public function show(Branch $branch)
     {
-        //
+        //$branch = Branch::find($branch_id);
     }
 
     /**
