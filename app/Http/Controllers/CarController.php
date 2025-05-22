@@ -21,7 +21,16 @@ class CarController extends Controller
             $user = null; // Handle unauthenticated users
         }
 
-        $cars = Car::with('branch')->get(); // Load cars with their branch relationship
+        $cars = Car::with(['branch', 'bookings' => function ($query) {
+            $query->orderByDesc('booking_id'); // Ensure latest booking is first
+        }])->get();
+
+        // Append status to each car based on its latest booking
+        $cars->map(function ($car) {
+            $car->status = optional($car->bookings->first())->status ?? 'available';
+            return $car;
+        });
+
         return view('cars.index', compact('cars', 'user'));
     }
 
@@ -40,7 +49,6 @@ class CarController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'branch_id' => 'required',
             'car_name' => 'required',
             'brand' => 'required',
             'type' => 'required',
@@ -50,7 +58,6 @@ class CarController extends Controller
         ]);
 
         Car::create([
-            'branch_id' => $validated['branch_id'],
             'car_name' => $validated['car_name'],
             'branch_id' => $validated['branch_id'],
             'brand' => $validated['brand'],

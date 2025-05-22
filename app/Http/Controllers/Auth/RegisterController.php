@@ -65,7 +65,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'role' => ['required', 'in:customer,staff'],
-            'branch_id' => ['required_if:role,Staff', 'exists:branches,branch_id'],
+            'branch_id' => ['required_if:role,staff', 'exists:branches,branch_id'],
         ]);
     }
 
@@ -84,7 +84,7 @@ class RegisterController extends Controller
             'role' => $data['role']
         ]);
 
-        if ($data['role'] === 'Staff') {
+        if ($data['role'] === 'staff') {
             Staff::create([
                 'user_id' => $user->id,
                 'name' => $data['name'],

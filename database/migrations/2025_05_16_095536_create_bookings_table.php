@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('customer_id')->constrained('customers', 'customer_id')->onDelete('cascade');
             $table->date('start_date');
             $table->date('end_date');
-            $table->enum('status', ['pending', 'confirmed', 'cancelled', 'finished'])->default('pending');
+            $table->enum('status', ['available', 'pending', 'confirmed', 'cancelled', 'booked'])->default('available');
             $table->timestamps();
         });
     }
