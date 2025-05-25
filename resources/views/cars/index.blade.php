@@ -6,11 +6,41 @@
 
         @if (Auth::check() && Auth::user()->role == 'staff')
             <div class="d-flex justify-content-end mb-3">
-                <a href="{{ route('cars.create') }}" class="btn btn-success">
-                    + Add car</i>
-                </a>
+                <a href="{{ route('cars.create') }}" class="btn btn-success">+ Add car</a>
             </div>
         @endif
+
+        <form method="GET" action="{{ route('cars.index') }}" class="row g-2 mb-3">
+            <div class="col-md-3">
+                <select name="branch_id" class="form-select">
+                    <option value="">All Branches</option>
+                    <option value="1" {{ request('branch_id') == '1' ? 'selected' : '' }}>Bangi</option>
+                    <option value="2" {{ request('branch_id') == '2' ? 'selected' : '' }}>Gombak</option>
+                    <option value="3" {{ request('branch_id') == '3' ? 'selected' : '' }}>Shah Alam</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="type" class="form-select">
+                    <option value="">All Types</option>
+                    <option value="sedan" {{ request('type') == 'sedan' ? 'selected' : '' }}>Sedan</option>
+                    <option value="suv" {{ request('type') == 'suv' ? 'selected' : '' }}>SUV</option>
+                    <option value="hatchback" {{ request('type') == 'hatchback' ? 'selected' : '' }}>Hatchback</option>
+                    <option value="sport" {{ request('type') == 'sport' ? 'selected' : '' }}>Sport</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="transmission" class="form-select">
+                    <option value="">All Transmissions</option>
+                    <option value="automatic" {{ request('transmission') == 'automatic' ? 'selected' : '' }}>Automatic
+                    </option>
+                    <option value="manual" {{ request('transmission') == 'manual' ? 'selected' : '' }}>Manual</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary w-100">Filter</button>
+            </div>
+        </form>
+
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -54,6 +84,5 @@
                 @endforeach
             </tbody>
         </table>
-
     </div>
 @endsection

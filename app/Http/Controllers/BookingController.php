@@ -16,8 +16,25 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $bookings = Booking::with('cars', 'customers')->get();
-        return view('bookings.index', compact('bookings'));
+        if (Auth::check()) {
+            // Retrieve the authenticated customer's profile
+            $customer = Customer::where('user_id', Auth::id())->first();
+
+            // Check if the customer profile exists
+            if (!$customer) {
+                return redirect()->route('login')->with('error', 'Customer profile not found.');
+            }
+
+            // Retrieve bookings for the authenticated customer
+            $bookings = Booking::where('customer_id', $customer->customer_id)
+                ->with('cars') // Eager load the cars relationship
+                ->get();
+
+            return view('bookings.index', compact('bookings'));
+        }
+
+        // Redirect unauthenticated users
+        return redirect()->route('login')->with('error', 'You must be logged in to view your bookings.');
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
+use App\Models\Branch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,26 +14,46 @@ class CarController extends Controller
      */
     /** @var \App\Models\User $user */
 
-    public function index()
+    public function index(Request $request)
     {
         if (Auth::check()) {
-            $user = Auth::user(); // Load the staff relationship
+            $user = Auth::user();
         } else {
-            $user = null; // Handle unauthenticated users
+            $user = null;
         }
 
-        $cars = Car::with(['branch', 'bookings' => function ($query) {
-            $query->orderByDesc('booking_id'); // Ensure latest booking is first
-        }])->get();
+        // Start building the query with eager loading
+        $query = Car::with(['branch', 'bookings' => function ($query) {
+            $query->orderByDesc('booking_id');
+        }]);
 
-        // Append status to each car based on its latest booking
-        $cars->map(function ($car) {
+        // Apply filters
+        if ($request->filled('branch_id')) {
+            $query->where('branch_id', $request->branch_id);
+        }
+
+        if ($request->filled('type')) {
+            $query->where('type', $request->type);
+        }
+
+        if ($request->filled('transmission')) {
+            $query->where('transmission', $request->transmission);
+        }
+
+        // Get all results (no pagination)
+        $cars = $query->get();
+
+        // Append dynamic status based on the latest booking
+        $cars->transform(function ($car) {
             $car->status = optional($car->bookings->first())->status ?? 'available';
             return $car;
         });
 
-        return view('cars.index', compact('cars', 'user'));
+        $branches = Branch::all();
+
+        return view('cars.index', compact('cars', 'branches'));
     }
+
 
     /**
      * Show the form for creating a new resource.
