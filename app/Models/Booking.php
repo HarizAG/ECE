@@ -10,10 +10,13 @@ class Booking extends Model
 
     protected $fillable = [
         'customer_id',
-        'car_ids',
         'start_date',
         'end_date',
         'status',
+    ];
+
+    protected $attributes = [
+        'status' => 'pending',
     ];
 
     public function cars()

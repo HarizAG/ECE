@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Models\Staff;
+use App\Models\Customer;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Staff;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -93,6 +94,16 @@ class RegisterController extends Controller
                 'branch_id' => $data['branch_id'],
             ]);
         }
+
+        if ($data['role'] === 'customer') {
+            Customer::create([
+                'user_id' => $user->id,
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+            ]);
+        }
+
 
         return $user;
     }

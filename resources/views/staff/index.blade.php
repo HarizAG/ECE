@@ -14,7 +14,7 @@
                             <a href="{{ url('/cars') }}">
                                 <h4>MANAGE CARS</h4>
                             </a>
-                            <a href="{{ url('/bookings') }}">
+                            <a href="{{ route('bookings.manage') }}">
                                 <h4>MANAGE BOOKINGS</h4>
                             </a>
                         </p>

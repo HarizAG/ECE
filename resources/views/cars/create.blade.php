@@ -46,7 +46,13 @@
             <!--Number Plate -->
             <div class="form-group mb-3">
                 <label for="plate_number">Number Plate</label>
-                <input type="text" name="plate_number" id="number_plate" class="form-control" required>
+                <input type="text" name="plate_number" id="number_plate" class="form-control"
+                    @error('plate_number') is-invalid @enderror required>
+                @error('plate_number')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
 
             <button type="submit" class="btn btn-primary">Add Car</button>

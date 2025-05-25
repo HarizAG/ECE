@@ -74,17 +74,15 @@ class CarController extends Controller
      */
     public function show(Car $car)
     {
-        $car = Car::with('branch')->find($car->id);
-        return view('cars.show', compact('car'));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Car $car)
+    public function edit(Car $cars)
     {
-        $car = Car::with('branch')->get();
-        return view('cars.index', compact('car'));
+        //   
     }
 
     /**

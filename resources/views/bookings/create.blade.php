@@ -1,40 +1,42 @@
-<!-- filepath: resources/views/bookings/create.blade.php -->
 @extends('layouts.app')
 
 @section('content')
     <div class="container">
-        <h1>Book Car</h1>
-        <div class="card">
-            <div class="card-body">
-                <h3><u>Car Information & Booking Details</u></h3>
-                @foreach ($cars as $car)
-                @endforeach
-                <h5 class="card-title">Car: {{ $car->car_name }}</h5>
-                <h5 class="card-text">Brand: {{ $car->brand }}</h5>
-                <h5 class="card-text">Type: {{ $car->type }}</h5>
-                <h5 class="card-text">Transmission: {{ $car->transmission }}</h5>
-                <h5 class="card-text">Branch: {{ $location }}</h5>
+        <h1>Book Car: {{ $car->car_name }} ({{ $car->brand }})</h1>
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
-        </div>
+        @endif
 
         <form action="{{ route('bookings.store') }}" method="POST">
             @csrf
-            <input type="hidden" name="car_id" value="{{ $car->id }}">
 
-            <!-- Start Rental Date -->
-            <div class="form-group mt-3">
-                <label for="start_date">Start Rental Date</label>
-                <input type="date" name="start_date" id="start_date" class="form-control" required>
+            <input type="hidden" name="car_id" value="{{ $car->car_id }}">
+
+            <div class="form-group mb-3">
+                <label for="start_date">Start Date:</label>
+                <input type="date" name="start_date" class="form-control" required>
+
+                @error('start_date')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
 
-            <!-- End Rental Date -->
-            <div class="form-group mt-3">
-                <label for="end_date">End Rental Date</label>
-                <input type="date" name="end_date" id="end_date" class="form-control" required>
+            <div class="form-group mb-3">
+                <label for="end_date">End Date:</label>
+                <input type="date" name="end_date" class="form-control" required>
             </div>
 
-            <button type="submit" class="btn btn-primary mt-3">Confirm Booking</button>
-            <a href="{{ url('/cars') }}" class="btn btn-secondary mt-3">Cancel Booking</a>
+            <button type="submit" class="btn btn-success">Submit Booking</button>
+            <a href="{{ route('cars.index') }}" class="btn btn-secondary">Cancel</a>
         </form>
     </div>
 @endsection
